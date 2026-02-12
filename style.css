@@ -1,0 +1,498 @@
+:root {
+    --primary: #ff4d6d;
+    --secondary: #ff8fa3;
+    --accent: #ffb703;
+    --silver: #c0c0c0;
+    --bg-dark: #0a0a0a;
+    --text-light: #ffffff;
+    --glass: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Poppins', sans-serif;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* ===== GRAND OPENING CURTAIN ===== */
+#opening-curtain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.curtain-left,
+.curtain-right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a0033 0%, #4a0066 50%, #1a0033 100%);
+    z-index: 10001;
+    transition: transform 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.curtain-left {
+    left: 0;
+    box-shadow: inset -20px 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.curtain-right {
+    right: 0;
+    box-shadow: inset 20px 0 50px rgba(0, 0, 0, 0.5);
+}
+
+#opening-curtain.open .curtain-left {
+    transform: translateX(-100%);
+}
+
+#opening-curtain.open .curtain-right {
+    transform: translateX(100%);
+}
+
+.opening-content {
+    position: relative;
+    z-index: 10002;
+    text-align: center;
+    padding: 2rem;
+}
+
+.opening-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4rem;
+    color: var(--primary);
+    text-shadow: 0 0 30px var(--primary), 0 0 60px var(--secondary);
+    margin-bottom: 2rem;
+    animation: titlePulse 2s infinite alternate;
+}
+
+@keyframes titlePulse {
+    to {
+        text-shadow: 0 0 40px var(--primary), 0 0 80px var(--secondary);
+    }
+}
+
+#opening-countdown {
+    margin: 2rem 0;
+}
+
+#opening-countdown p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #ddd;
+}
+
+.countdown-display {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-unit span {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent);
+}
+
+.time-unit small {
+    font-size: 0.9rem;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+.enter-button {
+    margin-top: 2rem;
+    padding: 1.5rem 3rem;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: none;
+    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.5);
+    transition: all 0.3s ease;
+    animation: buttonGlow 2s infinite alternate;
+}
+
+.enter-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(255, 77, 109, 0.7);
+}
+
+@keyframes buttonGlow {
+    to {
+        box-shadow: 0 10px 40px rgba(255, 183, 3, 0.7);
+    }
+}
+
+/* ===== SILVER STARS ===== */
+.silver-star {
+    position: fixed;
+    bottom: -100px;
+    z-index: 50;
+    pointer-events: auto;
+    cursor: none;
+    animation: floatUp linear forwards;
+    filter: drop-shadow(0 0 10px rgba(192, 192, 192, 0.8));
+}
+
+.silver-star svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes floatUp {
+    to {
+        bottom: 120vh;
+        transform: rotate(720deg);
+    }
+}
+
+.mini-confetti {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    z-index: 51;
+    pointer-events: none;
+    animation: scatter 1s ease-out forwards;
+}
+
+@keyframes scatter {
+    to {
+        transform: translate(var(--tx), var(--ty));
+        opacity: 0;
+    }
+}
+
+/* Custom Cursor */
+.custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, var(--text-light) 0%, transparent 80%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: screen;
+}
+
+.cursor-trail {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+main {
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+
+section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    pointer-events: none;
+}
+
+button,
+.message-card,
+.floating-btn {
+    pointer-events: auto;
+    cursor: none;
+}
+
+/* Hero Typography */
+.christmas-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 6rem;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--primary);
+    position: relative;
+    margin-bottom: 1rem;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
+}
+
+.christmas-text::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    color: var(--primary);
+    overflow: hidden;
+    border-right: 2px solid var(--primary);
+    animation: type 3s steps(20) forwards 2.5s;
+}
+
+@keyframes type {
+    to {
+        width: 100%;
+        border-right: none;
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+    }
+
+    to {
+        text-shadow: 0 0 30px var(--primary), 0 0 50px var(--secondary);
+    }
+}
+
+.name-text {
+    font-size: 5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #ff4d6d, #ffb703, #ff4d6d);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 4s, shine 3s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes fadeUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Countdown Styles */
+#countdown-container {
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 5s;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 77, 109, 0.3);
+    backdrop-filter: blur(10px);
+    pointer-events: auto;
+}
+
+#countdown {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #eee;
+}
+
+.time-box span {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--accent);
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 0 0 10px rgba(255, 183, 3, 0.5);
+}
+
+.scroll-instruction {
+    position: absolute;
+    bottom: 40px;
+    font-size: 1rem;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Gallery Section */
+.gallery-info {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    opacity: 0;
+}
+
+/* Message Section */
+.message-card {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    border-radius: 20px;
+    max-width: 600px;
+    transform: scale(0.9);
+    opacity: 0;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.message-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+}
+
+.message-card h2 {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary);
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.message-card p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #ddd;
+}
+
+.date-display {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--accent);
+    margin-bottom: 2rem;
+}
+
+button {
+    padding: 1rem 3rem;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(45deg, var(--primary), #ff004c);
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(255, 77, 109, 0.6);
+}
+
+.floating-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .christmas-text {
+        font-size: 3rem;
+    }
+
+    .name-text {
+        font-size: 2.5rem;
+    }
+
+    .opening-title {
+        font-size: 2.5rem;
+    }
+
+    #countdown {
+        gap: 1rem;
+    }
+
+    .time-box span {
+        font-size: 1.5rem;
+    }
+
+    .countdown-display {
+        gap: 1rem;
+    }
+
+    .time-unit span {
+        font-size: 2rem;
+    }
+}
